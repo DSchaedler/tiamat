@@ -1,18 +1,35 @@
-def tick args
-  args.outputs.labels  << [640, 540, 'Hello World!', 5, 1]
-  args.outputs.labels  << [640, 500, 'Docs located at ./docs/docs.html and 100+ samples located under ./samples', 5, 1]
-  args.outputs.labels  << [640, 460, 'Join the Discord server! https://discord.dragonruby.org', 5, 1]
+# frozen_string_literal: true
 
-  args.outputs.sprites << { x: 576,
-                            y: 280,
-                            w: 128,
-                            h: 101,
-                            path: 'dragonruby.png',
-                            angle: args.state.tick_count }
+def tick(args)
+  default_canvas ||= Canvas.new(100, 100, :default_canvas)
+  
+  args.outputs.primitives << default_canvas.pixels
 
-  args.outputs.labels  << { x: 640,
-                            y: 60,
-                            text: './mygame/app/main.rb',
-                            size_enum: 5,
-                            alignment_enum: 1 }
+end
+
+class Canvas
+  attr_accessor :width, :height, :name, :pixels
+
+  def initialize(width, height, name)
+    @width = width
+    @height = height
+    @name = name
+    @pixels = []
+
+    iter_x = @width
+
+    while iter_x > 0
+      @pixels[iter_x] ||= []
+
+      iter_y = @height
+
+      while iter_y > 0
+        @pixels[iter_x][iter_y] ||= {primitive_marker: :solid, x: iter_x, y: iter_y, w: 1, h: 1, r: iter_x, g: iter_y, b: 0, a: 255}
+
+        iter_y -= 1
+      end
+
+      iter_x -= 1
+    end
+  end
 end

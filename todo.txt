@@ -1,0 +1,4 @@
+Create Pixel Grid interface.
+Allow editing of the pixel grid.
+optimize the shit.
+draw the rest of the fucking owl.
